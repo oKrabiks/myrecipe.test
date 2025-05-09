@@ -4,24 +4,20 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateRecipeKeywordTable extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
         Schema::create('recipe_keyword', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->foreignId('recipe_id')->constrained()->onDelete('cascade');
+            $table->foreignId('keyword_id')->constrained()->onDelete('cascade');
+            $table->primary(['recipe_id', 'keyword_id']);
+            
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('recipe_keyword');
     }
-};
+}
