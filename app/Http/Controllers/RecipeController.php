@@ -6,10 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Recipe;
 use App\Models\Category;
 use App\Models\Keyword;
-use Illuminate\Support\Facades\Auth;
 
 class RecipeController extends Controller
 {
+
     public function index()
     {
         $recipes = Recipe::with(['user', 'category', 'keywords'])->latest()->paginate(10);
@@ -49,9 +49,9 @@ class RecipeController extends Controller
 
         $recipe->save();
 
-        if ($request->keyword_id) {
-            $recipe->keywords()->attach($request->keyword_id);
-        }
+        if ($request->has('keywords')) {
+        $recipe->keywords()->attach($request->input('keywords'));
+        }   
 
         return redirect()->route('recipes.index')->with('success', 'Recipe created successfully!');
     }
@@ -103,4 +103,11 @@ class RecipeController extends Controller
         $recipe->delete();
         return redirect()->route('recipes.index')->with('success', 'Recipe deleted successfully!');
     }
+    
+
 }
+
+
+ 
+
+

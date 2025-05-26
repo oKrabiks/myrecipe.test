@@ -13,11 +13,10 @@ class CreateRecipesTable extends Migration
             $table->string('title');
             $table->text('ingredients');
             $table->text('steps');
-            $table->string('photo');
+            $table->string('photo')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
-            $table->foreignId('keyword_id')->constrained()->onDelete('cascade');
-            
+            $table->timestamps();
         });
     }
 

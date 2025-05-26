@@ -14,7 +14,7 @@ return [
     | persist session data. Database storage is a great default choice.
     |
     | Supported: "file", "cookie", "database", "apc",
-    |            "memcached", "redis", "dynamodb", "array"
+    |             "memcached", "redis", "dynamodb", "array"
     |
     */
 
@@ -73,7 +73,7 @@ return [
     |
     */
 
-    'connection' => env('SESSION_CONNECTION'),
+    'connection' => env('SESSION_CONNECTION', NULL),
 
     /*
     |--------------------------------------------------------------------------
