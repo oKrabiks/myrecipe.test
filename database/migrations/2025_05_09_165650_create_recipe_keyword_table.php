@@ -12,7 +12,7 @@ class CreateRecipeKeywordTable extends Migration
             $table->foreignId('recipe_id')->constrained()->onDelete('cascade');
             $table->foreignId('keyword_id')->constrained()->onDelete('cascade');
             $table->primary(['recipe_id', 'keyword_id']);
-            
+            $table->timestamps();
         });
     }
 

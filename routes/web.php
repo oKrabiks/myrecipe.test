@@ -22,3 +22,12 @@ Route::get('/categories/{category}', [CategoryController::class, 'show'])->name(
 
 // Atslēgvārdi
 Route::get('/keywords/{keyword}', [KeywordController::class, 'show'])->name('keywords.show');
+
+// Autentifikācija
+Auth::routes();
+
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+

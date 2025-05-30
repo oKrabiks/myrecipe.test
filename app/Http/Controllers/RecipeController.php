@@ -43,7 +43,7 @@ class RecipeController extends Controller
         $recipe->user_id = Auth::id();
         
         if ($request->hasFile('photo')) {
-            $path = $request->file('photo')->store('public/recipes');
+            $path = $request->file('photo')->store('recipes', 'public');
             $recipe->photo = basename($path);
         }
 
@@ -58,7 +58,8 @@ class RecipeController extends Controller
 
     public function show(Recipe $recipe)
     {
-        return view('recipes.show', compact('recipe'));
+        $categories = Category::all();
+        return view('recipes.show', compact('recipe','categories'));
     }
 
     public function edit(Recipe $recipe)
@@ -85,7 +86,7 @@ class RecipeController extends Controller
         $recipe->category_id = $request->category_id;
         
         if ($request->hasFile('photo')) {
-            $path = $request->file('photo')->store('public/recipes');
+            $path = $request->file('photo')->store('recipes');
             $recipe->photo = basename($path);
         }
 
@@ -95,7 +96,7 @@ class RecipeController extends Controller
             $recipe->keywords()->sync($request->keyword_id);
         }
 
-        return redirect()->route('recipes.index')->with('success', 'Recipe updated successfully!');
+        return redirect()->route('recipes.my')->with('success', 'Recipe updated successfully!');
     }
 
     public function destroy(Recipe $recipe)
@@ -103,4 +104,5 @@ class RecipeController extends Controller
         $recipe->delete();
         return redirect()->route('recipes.index')->with('success', 'Recipe deleted successfully!');
     }
+
 }

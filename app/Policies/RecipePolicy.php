@@ -22,12 +22,17 @@ class RecipePolicy
 
     public function viewAny(User $user = null)
     {
-        return true;
+
+
+        return true; 
     }
 
     public function view(User $user = null, Recipe $recipe)
     {
+
         return true; 
+
+    
     }
 
     public function create(User $user)
@@ -38,7 +43,8 @@ class RecipePolicy
 
     public function restore(User $user, Recipe $recipe)
     {
-        return false; 
+        return false;
+
     }
 
     public function forceDelete(User $user, Recipe $recipe)
