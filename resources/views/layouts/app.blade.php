@@ -35,9 +35,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ route('home') }}">Sākums</a>
-                    </li>
+
                     @if (isset($categories))
                         @foreach ($categories as $category)
                             <li class="nav-item">
@@ -46,10 +44,32 @@
                         @endforeach
                     @endif
                 </ul>
-                <form class="d-flex" action="{{ url()->current() }}" method="GET">
+                <form class="d-flex" action="{{ route('search') }}" method="GET">
                     <input class="form-control me-2" type="search" placeholder="Meklēt receptes" aria-label="Search" name="query">
                     <button class="btn btn-outline-success" type="submit">Meklēt</button>
                 </form>
+                <ul class="navbar-nav ms-auto">
+                    @auth
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('recipes.my') }}">Manas Receptes</a> </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('logout') }}"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                Atteikties
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </li>
+                    @else
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('login') }}">Pieteikties</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('register') }}">Reģistrēties</a>
+                        </li>
+                    @endauth
+                </ul>
             </div>
         </div>
     </nav>

@@ -5,9 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\KeywordController;
 use Illuminate\Support\Facades\Route;
 
-
-
-// Galvenā lapa 
+// Galvenā lapa
 Route::get('/', [RecipeController::class, 'index'])->name('home');
 
 // Receptes
@@ -24,4 +22,3 @@ Route::get('/categories/{category}', [CategoryController::class, 'show'])->name(
 
 // Atslēgvārdi
 Route::get('/keywords/{keyword}', [KeywordController::class, 'show'])->name('keywords.show');
-
