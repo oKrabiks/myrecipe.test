@@ -31,6 +31,6 @@ class Recipe extends Model
 
     public function keywords()
     {
-        return $this->belongsToMany(Keyword::class, 'recipe_keyword');
+        return $this->belongsToMany(Keyword::class, 'recipe_keyword', 'recipe_id', 'keyword_id');
     }
 }

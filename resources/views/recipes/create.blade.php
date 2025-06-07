@@ -56,17 +56,18 @@
                     @enderror
                 </div>
 
-                <div class="form-group">
-                    <label for="keywords">Atslēgvārdi:</label>
-                    <select class="form-control" id="keywords" name="keywords[]" multiple>
-                        @foreach($keywords as $keyword)
+                 <div class="mb-3">
+                    <label for="keyword_ids" class="form-label">Izvēlies Atslēgas vārdus</label>
+                    <select class="form-control" id="keyword_ids" name="keyword_ids[]" multiple>
+                        @foreach ($keywords as $keyword)
                             <option value="{{ $keyword->id }}">{{ $keyword->name }}</option>
                         @endforeach
                     </select>
-                    @error('keywords')
-                        <div class="alert alert-danger">{{ $message }}</div>
+                    @error('keyword_ids') <div class="text-danger">{{ $message }}</div> @enderror
+                    @error('keyword_ids.*')
+                    <div class="text-danger">{{ $message }}</div>
                     @enderror
-                </div>
+                    </div>   
 
                 <div class="form-group">
                     <label for="photo">Attēls:</label>

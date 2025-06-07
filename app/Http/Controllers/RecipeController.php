@@ -7,6 +7,7 @@ use App\Models\Recipe;
 use App\Models\Category;
 use App\Models\Keyword;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class RecipeController extends Controller
 {
@@ -32,7 +33,8 @@ class RecipeController extends Controller
             'ingredients' => 'required',
             'steps' => 'required',
             'category_id' => 'required|exists:categories,id',
-            'keyword_id' => 'nullable|exists:keywords,id',
+            'keyword_ids' => 'nullable|array',
+            'keyword_ids.*' => 'exists:keywords,id',
             'photo' => 'nullable|image|max:2048',
         ]);
 
@@ -51,8 +53,10 @@ class RecipeController extends Controller
 
         $recipe->save();
 
-        if ($request->keyword_id) {
-            $recipe->keywords()->attach($request->keyword_id);
+        if ($request->keyword_ids) {
+            $recipe->keywords()->sync($request->keyword_ids);
+        } else {
+            $recipe->keywords()->detach();
         }
 
         return redirect()->route('recipes.index')->with('success', 'Recipe created successfully!');
@@ -79,7 +83,8 @@ class RecipeController extends Controller
             'ingredients' => 'required',
             'steps' => 'required',
             'category_id' => 'required|exists:categories,id',
-            'keyword_id' => 'nullable|exists:keywords,id',
+            'keyword_ids' => 'nullable|array', 
+            'keyword_ids.*' => 'exists:keywords,id',
             'photo' => 'nullable|image|max:2048',
         ]);
 
@@ -96,8 +101,10 @@ class RecipeController extends Controller
 
         $recipe->save();
 
-        if ($request->keyword_id) {
-            $recipe->keywords()->sync($request->keyword_id);
+        if ($request->keyword_ids) {
+            $recipe->keywords()->sync($request->keyword_ids);
+        } else {
+            $recipe->keywords()->detach(); 
         }
 
         return redirect()->route('recipes.my')->with('success', 'Recipe updated successfully!');
