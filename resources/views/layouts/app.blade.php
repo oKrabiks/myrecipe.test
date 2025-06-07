@@ -45,14 +45,14 @@
                     @endif
                 </ul>
 
-                <form class="d-flex" action="" method="GET">
+                <form class="d-flex" action="{{ route('search') }}" method="GET">
                     <input class="form-control me-2" type="search" placeholder="Meklēt receptes" aria-label="Search" name="query">
                     <button class="btn btn-outline-success" type="submit">Meklēt</button>
                 </form>
                 <ul class="navbar-nav ms-auto">
                     @auth
                         <li class="nav-item">
-                            <a class="nav-link" href="">Manas Receptes</a> </li>
+                            <a class="nav-link" href="{{ route('recipes.my') }}">Manas Receptes</a> </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('logout') }}"
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

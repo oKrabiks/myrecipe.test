@@ -105,4 +105,71 @@ class RecipeController extends Controller
         return redirect()->route('recipes.index')->with('success', 'Recipe deleted successfully!');
     }
 
+    public function myRecipes()
+    {
+        if (Auth::user()->role === 'admin') {
+            $recipes = Recipe::latest()->paginate(10); 
+        } else {
+            $recipes = Recipe::where('user_id', Auth::id())->latest()->paginate(10);
+        }
+        $categories = Category::all();
+        return view('recipes.my', compact('recipes', 'categories'));
+    }
+
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query', '');
+
+        $keyword = $request->input('keyword', '');
+        $selectedCategory = $request->input('category_id', 0); 
+        $selectedKeywordId = $request->input('selected_keyword_id', 0); 
+
+
+        $recipes = Recipe::query();
+
+        if ($query) {
+            $recipes->where(function($q) use ($query) {
+                $q->where('title', 'like', '%' . $query . '%')
+                  ->orWhere('ingredients', 'like', '%' . $query . '%')
+                  ->orWhere('steps', 'like', '%' . $query . '%');
+            });
+        }
+
+        if ($keyword) {
+            $recipes->where(function($q) use ($keyword) {
+                $q->where('title', 'like', '%' . $keyword . '%')
+                  ->orWhere('ingredients', 'like', '%' . $keyword . '%')
+                  ->orWhere('steps', 'like', '%' . $keyword . '%');
+            });
+        }
+
+        if ($selectedCategory != 0) { 
+            $recipes->where('category_id', $selectedCategory);
+        }
+
+        if ($selectedKeywordId != 0) {
+            $recipes->whereHas('keywords', function ($q) use ($selectedKeywordId) {
+                $q->where('keywords.id', $selectedKeywordId);
+            });
+        }
+
+        $recipes = $recipes->with(['user', 'category', 'keywords'])
+                           ->latest()
+                           ->paginate(10);
+
+        $categories = Category::all();
+        $keywords = Keyword::all();
+
+        return view('recipes.search', compact(
+            'recipes',
+            'categories',
+            'keywords',
+            'query',
+            'keyword',
+            'selectedCategory',
+            'selectedKeywordId'
+        ));
+    }
+
 }
