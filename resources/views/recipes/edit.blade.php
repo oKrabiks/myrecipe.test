@@ -17,6 +17,11 @@
             <input type="text" id="title" name="title" value="{{ $recipe->title }}" required>
         </div>
 
+        <div class="mb-3">
+            <label for="description" class="form-label">Apraksts</label>
+            <textarea class="form-control" id="description" name="description" rows="5">{{ old('description', $recipe->description) }}</textarea>
+        </div>
+
         <div class="form-group">
             <label for="ingredients">Sastāvdaļas:</label>
             <textarea id="ingredients" name="ingredients" required>{{ $recipe->ingredients }}</textarea>

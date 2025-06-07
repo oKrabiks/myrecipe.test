@@ -18,6 +18,15 @@
                     @enderror
                 </div>
 
+                <div class="mb-3">
+                    <label for="description" class="form-label">Apraksts</label>
+                    <textarea class="form-control" id="description" name="description" rows="5">{{ old('description') }}</textarea>
+                    @error('description')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+
+
                 <div class="form-group">
                     <label for="ingredients">Sastāvdaļas:</label>
                     <textarea class="form-control" id="ingredients" name="ingredients" rows="3" required>{{ old('ingredients') }}</textarea>

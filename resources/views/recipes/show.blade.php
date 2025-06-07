@@ -12,8 +12,16 @@
                 
                 <img src="{{ asset('storage/recipes/' . $recipe->photo) }}" alt="{{ $recipe->title }}" class="img-fluid mb-4" style="max-width: 400px; height: auto;">
                 
+                @if ($recipe->description)
+                    <div class="mb-4">
+                        <p>{{ $recipe->description }}</p>
+                    </div>
+                @endif
+
                 <h2 class="h5 mb-2">Sastāvdaļas:</h2>
                 <p class="mb-4">{!! nl2br(e($recipe->ingredients)) !!}</p> 
+
+
 
                 <h2 class="h5 mb-2">Pagatavošanas Soļi:</h2>
                 <p class="mb-4">{!! nl2br(e($recipe->steps)) !!}</p>

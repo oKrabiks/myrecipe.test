@@ -28,6 +28,7 @@ class RecipeController extends Controller
     {
         $request->validate([
             'title' => 'required',
+            'description' => 'nullable|string|max:2000',
             'ingredients' => 'required',
             'steps' => 'required',
             'category_id' => 'required|exists:categories,id',
@@ -37,6 +38,7 @@ class RecipeController extends Controller
 
         $recipe = new Recipe();
         $recipe->title = $request->title;
+        $recipe->description = $request->description;
         $recipe->ingredients = $request->ingredients;
         $recipe->steps = $request->steps;
         $recipe->category_id = $request->category_id;
@@ -73,6 +75,7 @@ class RecipeController extends Controller
     {
         $request->validate([
             'title' => 'required',
+            'description' => 'nullable|string|max:2000',
             'ingredients' => 'required',
             'steps' => 'required',
             'category_id' => 'required|exists:categories,id',
@@ -81,6 +84,7 @@ class RecipeController extends Controller
         ]);
 
         $recipe->title = $request->title;
+        $recipe->description = $request->description;
         $recipe->ingredients = $request->ingredients;
         $recipe->steps = $request->steps;
         $recipe->category_id = $request->category_id;
