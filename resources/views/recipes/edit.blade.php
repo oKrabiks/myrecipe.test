@@ -56,25 +56,17 @@
                     @enderror
                 </div>
 
-                <div class="mb-3">
-                    <label for="keyword_ids" class="form-label">Izvēlies Atslēgas vārdus</label>
-                    <select class="form-control" id="keyword_ids" name="keyword_ids[]" multiple>
+                <div class="form-group">
+                    <label for="keyword_id">Atslēgas vārds:</label>
+                    <select id="keyword_id" name="keyword_id">
+                        <option value="">Nav</option>
                         @foreach ($keywords as $keyword)
-                            <option value="{{ $keyword->id }}"
-                                {{ in_array($keyword->id, old('keyword_ids', $recipe->keywords->pluck('id')->toArray())) ? 'selected' : '' }}>
-                                {{ $keyword->name }}
-                            </option>
+                            <option value="{{ $keyword->id }}" {{ $recipe->keywords->contains($keyword->id) ? 'selected' : '' }}>{{ $keyword->name }}</option>
                         @endforeach
-                    </select>
-                    @error('keyword_ids')
-                        <div class="alert alert-danger mt-1">{{ $message }}</div>
-                    @enderror
-                    @error('keyword_ids.*')
-                        <div class="alert alert-danger mt-1">{{ $message }}</div>
-                    @enderror
+                </select>
                 </div>
 
-                <div class="mb-3"> 
+                <div class="mb-3">
                     <label for="photo" class="form-label">Attēls:</label>
                     <input type="file" class="form-control-file" id="photo" name="photo" accept="image/*">
                     @if ($recipe->photo)

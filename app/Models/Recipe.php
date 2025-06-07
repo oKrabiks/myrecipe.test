@@ -28,9 +28,8 @@ class Recipe extends Model
     {
         return $this->belongsTo(Category::class);
     }
-
     public function keywords()
     {
-        return $this->belongsToMany(Keyword::class, 'recipe_keyword', 'recipe_id', 'keyword_id');
+        return $this->belongsToMany(Keyword::class, 'recipe_keyword');
     }
 }
