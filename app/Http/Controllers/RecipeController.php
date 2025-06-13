@@ -54,7 +54,7 @@ class RecipeController extends Controller
         $recipe->keywords()->sync($request->keyword_id ? [$request->keyword_id] : []);
         
 
-        return redirect()->route('recipes.index')->with('success', 'Recipe created successfully!');
+        return redirect()->route('recipes.index')->with('success', 'Recepte veiksmīgi izveidota!');
     }
 
     public function show(Recipe $recipe)
@@ -101,13 +101,13 @@ class RecipeController extends Controller
             $recipe->keywords()->detach(); 
         }
 
-        return redirect()->route('recipes.my')->with('success', 'Recipe updated successfully!');
+        return redirect()->route('recipes.my')->with('success', 'Recepte veiksmīgi atjaunināta!');
     }
 
     public function destroy(Recipe $recipe)
     {
         $recipe->delete();
-        return redirect()->route('recipes.index')->with('success', 'Recipe deleted successfully!');
+        return redirect()->route('recipes.index')->with('success', 'Recepte veiksmīgi izdzēsta!');
     }
 
     public function myRecipes()

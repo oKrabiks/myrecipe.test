@@ -9,8 +9,6 @@ use App\Models\Recipe;
 
 class AuthServiceProvider extends ServiceProvider
 {
-
-
     protected $policies = [
 
         Recipe::class => RecipePolicy::class,

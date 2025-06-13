@@ -7,6 +7,9 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
+use App\Http\Controllers\AdminController;
+use App\Http\Middleware\BlockedUser;
+
 
 // Galvenā lapa
 Route::get('/', [RecipeController::class, 'index'])->name('home');
@@ -37,3 +40,17 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Meklēšana
 Route::get('/search', [RecipeController::class, 'search'])->name('search');
+
+
+Route::middleware(['auth', BlockedUser::class])->group(function () {
+    Route::get('/', function () {
+        return redirect()->route('recipes.index'); 
+    })->name('home'); 
+});
+
+// Administratora maršruti
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
+    Route::put('/admin/users/{user}/toggle-block', [AdminController::class, 'toggleBlock'])->name('admin.users.toggleBlock');
+});
+

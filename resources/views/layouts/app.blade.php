@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
         .navbar {
-            background-color: rgb(248, 125, 215);
+            background-color: rgb(241, 167, 222);
         }
 
         .navbar a.navbar-brand,
@@ -21,6 +21,7 @@
             padding-bottom: 10px;
             margin-bottom: 10px;
         }
+
     </style>
 </head>
 
@@ -28,7 +29,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{{ route('home') }}">MyRecipe</a>
+            <a class="navbar-brand" href="{{ route('recipes.index') }}">MyRecipe</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -49,10 +50,17 @@
                     <input class="form-control me-2" type="search" placeholder="Meklēt receptes" aria-label="Search" name="query">
                     <button class="btn btn-outline-success" type="submit">Meklēt</button>
                 </form>
+
                 <ul class="navbar-nav ms-auto">
                     @auth
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('recipes.my') }}">Manas Receptes</a> </li>
+                            <a class="nav-link" href="{{ route('recipes.my') }}">Manas Receptes</a>
+                        </li>
+                        @if (Auth::user()->role === 'admin')
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.users') }}">Visi lietotāji</a>
+                            </li>
+                        @endif
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('logout') }}"
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -76,6 +84,27 @@
     </nav>
 
     <div class="container mt-4">
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        @if (session('warning'))
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                {{ session('warning') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
         @yield('content')
     </div>
 

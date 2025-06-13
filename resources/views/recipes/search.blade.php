@@ -82,7 +82,6 @@
                                         
                                         @if ($recipe->keywords->isNotEmpty())
                                             <p class="card-text small">
-                                                Atslēgvārdi:
                                                 @foreach($recipe->keywords as $keyword)
                                                     <a href="{{ route('keywords.show', $keyword->id) }}" class="badge bg-secondary text-decoration-none">{{ $keyword->name }}</a>@if(!$loop->last), @endif
                                                 @endforeach
