@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Http\Request;//HTTP pieprasījumu saņemšanai
 use App\Models\Recipe;
 use App\Models\Category;
 use App\Models\Keyword;
@@ -10,23 +10,24 @@ use Illuminate\Support\Facades\Auth;
 
 class RecipeController extends Controller
 {
+    //Attēlo visas receptes
     public function index()
     {
         $recipes = Recipe::with(['user', 'category', 'keywords'])->latest()->paginate(10);
-        $categories = Category::all();
+        $categories = Category::all(); //padod receptes uz index lai var parādīt navbar
         return view('recipes.index', compact('recipes', 'categories'));
     }
-
+    //
     public function create()
     {
-        $categories = Category::all();
-        $keywords = Keyword::all();
+        $categories = Category::all();//Padod priekš izveides lapas izvēles
+        $keywords = Keyword::all();//Padod priekš izveides lapas izvēles
         return view('recipes.create', compact('categories', 'keywords'));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
+        $request->validate([ // validācija lai noteiktu vai viss nepieciešamais ir saņemts
             'title' => 'required',
             'description' => 'nullable|string|max:2000',
             'ingredients' => 'required',
@@ -42,15 +43,18 @@ class RecipeController extends Controller
         $recipe->ingredients = $request->ingredients;
         $recipe->steps = $request->steps;
         $recipe->category_id = $request->category_id;
-        $recipe->user_id = Auth::id();
+        $recipe->user_id = Auth::id(); // pieteikušā lietotāja id tiek piešķirts receptei
+        
+
         
         if ($request->hasFile('photo')) {
-            $path = $request->file('photo')->store('recipes', 'public');
-            $recipe->photo = basename($path);
+            $path = $request->file('photo')->store('recipes', 'public');//saglaba to publiskaja direktorija
+            $recipe->photo = basename($path); //datubaze saglaba tikai faila nosaukumu
         }
 
         $recipe->save();
-
+        
+         // ja 'keyword_id' ir izvēlēts, tas tiek ievietots masīvā. Ja nē, tad tukšs masīvs.
         $recipe->keywords()->sync($request->keyword_id ? [$request->keyword_id] : []);
         
 
@@ -90,11 +94,11 @@ class RecipeController extends Controller
         
         if ($request->hasFile('photo')) {
             $path = $request->file('photo')->store('recipes');
-            $recipe->photo = basename($path);
+            $recipe->photo = basename($path);//datubaze saglaba tikai faila nosaukumu
         }
 
         $recipe->save();
-
+        // ja 'keyword_id' ir izvēlēts, tas tiek ievietots masīvā. Ja nē, tad tukšs masīvs.
         if ($request->keyword_id) {
             $recipe->keywords()->sync([$request->keyword_id]);
         } else {
@@ -124,31 +128,23 @@ class RecipeController extends Controller
 
     public function search(Request $request)
     {
-        $query = $request->input('query', '');
+        $query = $request->input('query', ''); //ja nav atrasts tad noklusējuma
 
-        $keyword = $request->input('keyword', '');
         $selectedCategory = $request->input('category_id', 0); 
         $selectedKeywordId = $request->input('selected_keyword_id', 0); 
 
 
-        $recipes = Recipe::query();
+        $recipes = Recipe::query();//jauns vaicājums kuram pievienojam nosacījumus
 
         if ($query) {
             $recipes->where(function($q) use ($query) {
                 $q->where('title', 'like', '%' . $query . '%')
+                  ->orWhere('description', 'like', '%' . $query . '%')
                   ->orWhere('ingredients', 'like', '%' . $query . '%')
                   ->orWhere('steps', 'like', '%' . $query . '%');
             });
         }
-
-        if ($keyword) {
-            $recipes->where(function($q) use ($keyword) {
-                $q->where('title', 'like', '%' . $keyword . '%')
-                  ->orWhere('ingredients', 'like', '%' . $keyword . '%')
-                  ->orWhere('steps', 'like', '%' . $keyword . '%');
-            });
-        }
-
+        //pievieno where ja ir norādīta kategorija vai atslegas vards
         if ($selectedCategory != 0) { 
             $recipes->where('category_id', $selectedCategory);
         }
@@ -171,7 +167,6 @@ class RecipeController extends Controller
             'categories',
             'keywords',
             'query',
-            'keyword',
             'selectedCategory',
             'selectedKeywordId'
         ));

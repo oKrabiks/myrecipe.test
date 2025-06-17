@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Idejiski vajadzētu darboties unz visiem ekraniem -->
     <title>@yield('title', 'MyRecipe')</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
@@ -26,17 +26,17 @@
 </head>
 
 <body>
-
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{{ route('recipes.index') }}">MyRecipe</a>
+            <a class="navbar-brand" href="{{ route('recipes.index') }}">MyRecipe</a> 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
 
+                {{-- Kategoriju funkcionālai attēlošanai --}}
+                <ul class="navbar-nav">
                     @if (isset($categories))
                         @foreach ($categories as $category)
                             <li class="nav-item">
@@ -46,6 +46,7 @@
                     @endif
                 </ul>
 
+                {{-- Meklēšnas josla --}}
                 <form class="d-flex" action="{{ route('search') }}" method="GET">
                     <input class="form-control me-2" type="search" placeholder="Meklēt receptes" aria-label="Search" name="query">
                     <button class="btn btn-outline-success" type="submit">Meklēt</button>
@@ -82,7 +83,7 @@
             </div>
         </div>
     </nav>
-
+    {{-- Sesijas paziņojumu parādīšanai --}}
     <div class="container mt-4">
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -105,7 +106,7 @@
             </div>
         @endif
 
-        @yield('content')
+        @yield('content') {{-- Pievieno atbilstošo skatu --}}
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

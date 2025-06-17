@@ -42,6 +42,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/search', [RecipeController::class, 'search'])->name('search');
 
 
+// Autentificējoties jāiziet caur blocked user pārbaudi
 Route::middleware(['auth', BlockedUser::class])->group(function () {
     Route::get('/', function () {
         return redirect()->route('recipes.index'); 

@@ -11,24 +11,24 @@
                 <form action="{{ route('search') }}" method="GET" class="mb-5 p-4 bg-light rounded shadow-sm d-flex flex-column flex-md-row align-items-center justify-content-center gap-3">
                     <input type="hidden" name="query" value="{{ $query ?? '' }}">
 
-                    <div class="form-group w-100 w-md-33">
-                        <label for="category" class="form-label fw-bold">Kategorija:</label>
-                        <select
-                            id="category"
+                    <div class="form-group w-100 w-md-33"> {{-- Kategoriju izvēles dropdowns --}}
+                        <label for="category" class="form-label fw-bold">Kategorija:</label> {{-- Etiķete ar atribūtu for="category", kas saista to ar elementu, kura ID ir "category" --}}
+                        <select {{-- izveido dropdown izvēli --}}
+                            id="category" {{-- unikals id, vārds prieks formas, dropdown kā formas elements --}}
                             name="category_id"
                             class="form-select" 
                         >
-                            <option value="0" {{ (isset($selectedCategory) && $selectedCategory == 0) ? 'selected' : '' }}>Visas kategorijas</option>
+                            <option value="0" {{ (isset($selectedCategory) && $selectedCategory == 0) ? 'selected' : '' }}>Visas kategorijas</option> {{-- Noklusējums kategorijai --}}
                             @foreach ($categories as $cat)
                                 <option value="{{ $cat->id }}" {{ (isset($selectedCategory) && $selectedCategory == $cat->id) ? 'selected' : '' }}>
-                                    {{ $cat->name }}
+                                    {{ $cat->name }} {{-- Jauna opcija katrai kategorijai --}}
                                 </option>
                             @endforeach
                         </select>
                     </div>
 
-                    <div class="form-group w-100 w-md-33">
-                        <label for="selected_keyword_id" class="form-label fw-bold">Atslēgvārds (etiķete):</label>
+                    <div class="form-group w-100 w-md-33">{{-- Atslēgas vārdu izvēles dropdowns --}}
+                        <label for="selected_keyword_id" class="form-label fw-bold">Atslēgas vārds:</label>
                         <select
                             id="selected_keyword_id"
                             name="selected_keyword_id"
@@ -42,7 +42,7 @@
                             @endforeach
                         </select>
                     </div>
-
+                    {{-- Filtrēsanas poga submit --}}
                     <div class="w-100 w-md-auto mt-4 mt-md-0">
                         <button
                             type="submit"
@@ -57,7 +57,7 @@
                 @if ($recipes->isEmpty())
                     <p class="lead text-center mt-4">Nav atrasta neviena recepte, kas atbilst jūsu kritērijiem.</p>
                 @else
-                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"> 
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"> {{-- Rindas priekš recepšu parādīšanas --}}
                         @foreach ($recipes as $recipe)
                             <div class="col">
                                 <div class="card h-100 shadow-sm"> 
@@ -95,7 +95,7 @@
 
                     
                     <div class="mt-4">
-                        {{ $recipes->appends(request()->input())->links() }}
+                        {{ $recipes->appends(request()->input())->links() }} {{-- Sadalīšanai pa lapām --}}
                     </div>
                 @endif
             </div>

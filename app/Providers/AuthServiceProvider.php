@@ -11,12 +11,12 @@ class AuthServiceProvider extends ServiceProvider
 {
     protected $policies = [
 
-        Recipe::class => RecipePolicy::class,
+        Recipe::class => RecipePolicy::class, //Recipe modelim jāizmanto RecipePolicy
     ];
 
     public function boot(): void
     {
-        $this->registerPolicies();
+        $this->registerPolicies(); //reģistrē iepriekš definētās policies
 
     }
 }

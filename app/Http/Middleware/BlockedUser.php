@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
+use Closure; //lai padotu nakamajam
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Response;
@@ -16,12 +16,13 @@ class BlockedUser
             $user = Auth::user();
             if ($user->blocked && ($user->role ?? 'user') !== 'admin') {
                 Auth::logout();
-                $request->session()->invalidate();
-                $request->session()->regenerateToken();
+                $request->session()->invalidate(); //dzēš sesijas datus
+                $request->session()->regenerateToken(); //atjauno csrf 
 
                 return redirect('/login')->with('error', 'Jūsu konts ir bloķēts.');
             }
         }
-        return $next($request); 
+
+        return $next($request); //padod nakamajam middlewere
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 class KeywordController extends Controller
 {
+    //Attēlo visas receptes, kas saistītas ar norādīto atslēgvārdu.
     public function show(Keyword $keyword)
     {
         $recipes = $keyword->recipes()->with(['user', 'category', 'keywords'])->latest()->paginate(10);

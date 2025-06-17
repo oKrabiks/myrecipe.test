@@ -3,20 +3,16 @@
 @section('title', 'Manas Receptes')
 
 @section('content')
-    <div class="row">
+    <div class="row"> {{-- rinda receptēm, pilna platuma kolonna --}}
         <div class="col-md-12">
             <h1>Manas Receptes</h1>
-
-            @if (session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
-            @endif
 
             <a href="{{ route('recipes.create') }}" class="btn btn-primary mb-3">Pievienot Recepti</a>
 
             @if ($recipes->isEmpty())
                 <p>Nav pievienotu recepšu.</p>
             @else
-                <div class="table-responsive">
+                <div class="table">
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -25,12 +21,12 @@
                                 <th>Darbības</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody>{{-- katrai receptei --}}
                             @foreach ($recipes as $recipe)
                                 <tr>
                                     <td><a href="{{ route('recipes.show', $recipe->id) }}">{{ $recipe->title }}</a></td>
                                     <td>{{ $recipe->category->name }}</td>
-                                    <td>
+                                    <td> {{-- kolumna darbībām --}}
                                         <a href="{{ route('recipes.edit', $recipe->id) }}" class="btn btn-sm btn-warning">Rediģēt</a>
                                         <form action="{{ route('recipes.destroy', $recipe->id) }}" method="POST" class="d-inline-block">
                                             @csrf
@@ -44,7 +40,7 @@
                     </table>
                 </div>
 
-                {{ $recipes->links() }}
+                {{ $recipes->links() }} {{-- lapām --}}
             @endif
         </div>
     </div>

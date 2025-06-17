@@ -7,7 +7,7 @@
         <div class="col-md-12">
             <h1 class="mb-4">Rediģēt Recepti</h1>
 
-            <form action="{{ route('recipes.update', $recipe->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('recipes.update', $recipe->id) }}" method="POST" enctype="multipart/form-data"> 
                 @csrf
                 @method('PUT')
 
